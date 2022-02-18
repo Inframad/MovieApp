@@ -25,7 +25,7 @@ class MoviesAdapter(diffCallback: DiffUtil.ItemCallback<Movie>) :
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val item = getItem(position)
 
-        item?.let { holder.bind(it) } //TODO Placeholders
+        holder.bind(item)
     }
 }
 

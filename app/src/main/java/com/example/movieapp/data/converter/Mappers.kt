@@ -5,7 +5,7 @@ import com.example.movieapp.presentation.Movie
 
 fun MovieDTO.toMovie(): Movie =
     Movie(
-        title = title,
-        description = description,
+        title = title ?: "",
+        description = description ?: "",
         imageUrl = multimedia.src
     )

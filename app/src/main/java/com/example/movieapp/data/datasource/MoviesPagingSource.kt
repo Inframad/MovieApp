@@ -21,7 +21,7 @@ class MoviesPagingSource @Inject constructor(
             LoadResult.Page(
                 data = response.results,
                 prevKey = null,
-                nextKey = nextPageNumber+1
+                nextKey = nextPageNumber+20
             )
         } catch (e: IOException) {
             // IOException for network failures.
