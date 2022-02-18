@@ -21,12 +21,14 @@ class Repository @Inject constructor(private val api: MoviesApi) {
     }.flow.map {
         it.map { movieDTO -> movieDTO.toMovie() }
     }.onStart {
-        emit(PagingData.from(List(4) { Movie(
-            title = "",
-            description = "",
-            imageUrl = "",
-            isPlaceholder = true
-        ) }))
+        emit(PagingData.from(List(4) {
+            Movie(
+                title = "",
+                description = "",
+                imageUrl = "",
+                isPlaceholder = true
+            )
+        }))
     }
 
 }

@@ -7,5 +7,5 @@ fun MovieDTO.toMovie(): Movie =
     Movie(
         title = title ?: "",
         description = description ?: "",
-        imageUrl = multimedia.src
+        imageUrl = multimedia?.src
     )

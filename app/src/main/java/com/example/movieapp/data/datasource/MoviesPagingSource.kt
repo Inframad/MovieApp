@@ -31,6 +31,8 @@ class MoviesPagingSource @Inject constructor(
             // HttpException for any non-2xx HTTP status codes.
             Log.e("MoviesPagingSource", "HTTPException", e)
             return LoadResult.Error(e)
+        } catch(e: Exception) {
+            return LoadResult.Error(e)
         }
 
     }

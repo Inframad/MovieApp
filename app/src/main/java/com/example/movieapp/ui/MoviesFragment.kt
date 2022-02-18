@@ -47,7 +47,11 @@ class MoviesFragment : Fragment() {
 
         val pagingAdapter = MoviesAdapter(MovieComparator)
 
+
         binding.rv.adapter = pagingAdapter
+            .withLoadStateFooter(footer = MoviesLoadStateAdapter {
+                pagingAdapter.retry()
+            })
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.moviesFlow.collectLatest { pagingData: PagingData<Movie> ->
