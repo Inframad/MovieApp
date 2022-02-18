@@ -2,7 +2,7 @@ package com.example.movieapp.di
 
 import android.content.Context
 import com.example.movieapp.di.data.network.NetworkModule
-import com.example.movieapp.di.ui.UIModule
+import com.example.movieapp.di.ui.UIBindsModule
 import com.example.movieapp.ui.MainActivity
 import com.example.movieapp.ui.MoviesFragment
 import dagger.BindsInstance
@@ -13,7 +13,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         NetworkModule::class,
-        UIModule::class
+        UIBindsModule::class,
     ]
 )
 interface AppComponent {
