@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MovieApp</string>
+    <string name="movie_iv_desc">Movie\'s poster</string>
 </resources>
