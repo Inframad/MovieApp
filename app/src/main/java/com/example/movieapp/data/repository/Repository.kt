@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class Repository @Inject constructor(
-    private val api: MoviesApi,
+    api: MoviesApi,
     networkChecker: NetworkConnectionChecker
 ) {
 

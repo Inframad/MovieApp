@@ -15,6 +15,8 @@ import com.example.movieapp.databinding.FragmentMoviesBinding
 import com.example.movieapp.presentation.Movie
 import com.example.movieapp.presentation.MovieFragmentViewModel
 import com.example.movieapp.presentation.NetworkState
+import com.example.movieapp.ui.adapter.MovieComparator
+import com.example.movieapp.ui.adapter.MoviesAdapter
 import com.example.movieapp.ui.adapter.MoviesLoadStateAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
@@ -53,7 +55,6 @@ class MoviesFragment : Fragment() {
 
         val pagingAdapter = MoviesAdapter(MovieComparator)
 
-
         binding.rv.adapter = pagingAdapter
             .withLoadStateFooter(footer = MoviesLoadStateAdapter {
                 pagingAdapter.retry()
@@ -68,7 +69,7 @@ class MoviesFragment : Fragment() {
         viewModel.networkState.observe(viewLifecycleOwner) {
             it?.let {
                 when (it) {
-                    NetworkState.Available -> {
+                    NetworkState.Restored -> {
                         Snackbar.make(
                             binding.root,
                             getString(R.string.connection_restored_msg),

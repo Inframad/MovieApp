@@ -1,6 +1,5 @@
 package com.example.movieapp.data.datasource
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.movieapp.data.model.MovieDTO
@@ -12,6 +11,7 @@ import javax.inject.Inject
 class MoviesPagingSource @Inject constructor(
     private val api: MoviesApi,
 ) : PagingSource<Int, MovieDTO>() {
+
     override suspend fun load(
         params: LoadParams<Int>
     ): LoadResult<Int, MovieDTO> {
@@ -21,17 +21,13 @@ class MoviesPagingSource @Inject constructor(
             LoadResult.Page(
                 data = response.results,
                 prevKey = null,
-                nextKey = nextPageNumber+20
+                nextKey = nextPageNumber + 20
             )
         } catch (e: IOException) {
-            // IOException for network failures.
-                Log.e("MoviesPagingSource", "IOException", e)
             return LoadResult.Error(e)
         } catch (e: HttpException) {
-            // HttpException for any non-2xx HTTP status codes.
-            Log.e("MoviesPagingSource", "HTTPException", e)
             return LoadResult.Error(e)
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             return LoadResult.Error(e)
         }
     }

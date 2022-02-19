@@ -22,14 +22,18 @@ class MovieFragmentViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             repository.networkConnectionFlow.collectIndexed { index, value ->
-                when(index) {
-                    0 -> if(value == null) _networkState.value = NetworkState.NotAvailable
-                    else -> value?.let {
-                        _networkState.value = if(value) NetworkState.Available else NetworkState.NotAvailable
-                    }
-                }
+                setNetworkState(index, value)
             }
         }
     }
 
+    private fun setNetworkState(index: Int, value: Boolean?) {
+        when (index) {
+            0 -> if (value == null) _networkState.value = NetworkState.NotAvailable
+            else -> value?.let {
+                _networkState.value =
+                    if (value) NetworkState.Restored else NetworkState.NotAvailable
+            }
+        }
+    }
 }

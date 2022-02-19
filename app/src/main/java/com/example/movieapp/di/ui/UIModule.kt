@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 
 @Module
-interface UIBindsModule {
+interface UIModule {
 
     @Binds
     fun bindViewModelFactory(

@@ -4,6 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
+import com.example.movieapp.R
 import com.example.movieapp.databinding.ItemMovieBinding
 import com.example.movieapp.presentation.Movie
 
@@ -22,7 +23,6 @@ class MovieViewHolder(private val binding: ItemMovieBinding) :
     fun bind(movie: Movie?) {
         if (movie != null && !movie.isPlaceholder) {
             binding.apply {
-
                 hidePlaceholders()
 
                 movieTitleTv.text = movie.title
@@ -31,6 +31,7 @@ class MovieViewHolder(private val binding: ItemMovieBinding) :
                     .load(movie.imageUrl)
                     .centerCrop()
                     .placeholder(circularProgressDrawable)
+                    .error(R.drawable.ic_video_movie_track)
                     .into(movieIv)
             }
         } else {
@@ -53,7 +54,6 @@ class MovieViewHolder(private val binding: ItemMovieBinding) :
                 movieDescTvPlaceholder.visibility = View.GONE
             }
         }
-
     }
 
 }

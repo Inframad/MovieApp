@@ -1,4 +1,4 @@
-package com.example.movieapp.ui
+package com.example.movieapp.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -25,7 +25,6 @@ class MoviesAdapter(diffCallback: DiffUtil.ItemCallback<Movie>) :
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val item = getItem(position)
-
         holder.bind(item)
     }
 }
