@@ -1,4 +1,4 @@
-package com.example.movieapp.ui
+package com.example.movieapp.ui.viewholder
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +22,9 @@ class MovieViewHolder(private val binding: ItemMovieBinding) :
     fun bind(movie: Movie?) {
         if (movie != null && !movie.isPlaceholder) {
             binding.apply {
+
                 hidePlaceholders()
+
                 movieTitleTv.text = movie.title
                 movieDescTv.text = movie.description
                 Glide.with(root)
@@ -32,9 +34,7 @@ class MovieViewHolder(private val binding: ItemMovieBinding) :
                     .into(movieIv)
             }
         } else {
-            binding.apply {
-                hidePlaceholders(false)
-            }
+            hidePlaceholders(false)
         }
     }
 

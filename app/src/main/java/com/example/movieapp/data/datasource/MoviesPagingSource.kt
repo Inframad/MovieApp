@@ -34,7 +34,6 @@ class MoviesPagingSource @Inject constructor(
         } catch(e: Exception) {
             return LoadResult.Error(e)
         }
-
     }
 
     override fun getRefreshKey(state: PagingState<Int, MovieDTO>): Int? {

@@ -10,9 +10,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import com.example.movieapp.App
+import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentMoviesBinding
 import com.example.movieapp.presentation.Movie
 import com.example.movieapp.presentation.MovieFragmentViewModel
+import com.example.movieapp.presentation.NetworkState
+import com.example.movieapp.ui.adapter.MoviesLoadStateAdapter
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,6 +29,8 @@ class MoviesFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: MovieFragmentViewModel
+
+    private var errorSnackbar: Snackbar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,10 +65,39 @@ class MoviesFragment : Fragment() {
             }
         }
 
+        viewModel.networkState.observe(viewLifecycleOwner) {
+            it?.let {
+                when (it) {
+                    NetworkState.Available -> {
+                        Snackbar.make(
+                            binding.root,
+                            getString(R.string.connection_restored_msg),
+                            Snackbar.LENGTH_SHORT
+                        )
+                            .show()
+                        pagingAdapter.retry()
+                    }
+                    NetworkState.NotAvailable -> {
+                        errorSnackbar = Snackbar.make(
+                            binding.root,
+                            getString(R.string.check_connection_msg),
+                            Snackbar.LENGTH_INDEFINITE
+                        )
+                            .setAction(getString(R.string.dismiss_msg)) {
+                                errorSnackbar?.dismiss()
+                            }
+                        errorSnackbar?.show()
+                    }
+                }
+            }
+        }
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        errorSnackbar?.dismiss()
+        errorSnackbar = null
         _binding = null
     }
 }

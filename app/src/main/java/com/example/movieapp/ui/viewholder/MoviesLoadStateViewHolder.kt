@@ -1,4 +1,4 @@
-package com.example.movieapp.ui
+package com.example.movieapp.ui.viewholder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movieapp.R
 import com.example.movieapp.databinding.MoviesLoadStateFooterViewItemBinding
 import retrofit2.HttpException
+import java.io.IOException
 
 class MoviesLoadStateViewHolder(
     private val binding: MoviesLoadStateFooterViewItemBinding,
@@ -23,8 +24,10 @@ class MoviesLoadStateViewHolder(
             binding.errorMsg.text = when (loadState.error) {
                 is HttpException -> when ((loadState.error as HttpException).code()) {
                     429 -> binding.root.context.getString(R.string.fast_scrolling_error_msg)
+                    401 -> binding.root.context.getString(R.string.check_connection_msg)
                     else -> loadState.error.localizedMessage
                 }
+                is IOException -> binding.root.context.getString(R.string.check_connection_msg)
                 else -> loadState.error.localizedMessage
             }
         }

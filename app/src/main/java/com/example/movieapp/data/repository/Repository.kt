@@ -7,12 +7,16 @@ import androidx.paging.map
 import com.example.movieapp.data.converter.toMovie
 import com.example.movieapp.data.datasource.MoviesPagingSource
 import com.example.movieapp.data.network.MoviesApi
+import com.example.movieapp.data.network.NetworkConnectionChecker
 import com.example.movieapp.presentation.Movie
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
-class Repository @Inject constructor(private val api: MoviesApi) {
+class Repository @Inject constructor(
+    private val api: MoviesApi,
+    networkChecker: NetworkConnectionChecker
+) {
 
     val moviesFlow = Pager(
         PagingConfig(pageSize = 20, enablePlaceholders = true)
@@ -31,4 +35,5 @@ class Repository @Inject constructor(private val api: MoviesApi) {
         }))
     }
 
+    val networkConnectionFlow = networkChecker.networkIsAvailable
 }
