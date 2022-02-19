@@ -35,6 +35,8 @@ class MoviesPagingSource @Inject constructor(
     override fun getRefreshKey(state: PagingState<Int, MovieDTO>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
+            val pageIndex = state.pages.indexOf(anchorPage)
+            if (pageIndex == 0) return null
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
         }
     }

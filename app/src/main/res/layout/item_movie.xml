@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        app:cardBackgroundColor="#D2D2CF">
+        app:cardBackgroundColor="@color/card_color">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cons"
@@ -20,8 +19,8 @@
 
             <ImageView
                 android:id="@+id/movie_iv"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="@dimen/movie_iv_width"
+                android:layout_height="@dimen/movie_iv_height"
                 android:contentDescription="@string/movie_iv_desc"
                 android:src="@color/placeholder_color"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -112,7 +111,6 @@
                     app:layout_constraintStart_toEndOf="@id/movie_iv"
                     app:layout_constraintTop_toBottomOf="@id/movie_title_tv" />
             </LinearLayout>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

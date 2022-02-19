@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.example.movieapp.App
 import com.example.movieapp.R
@@ -21,6 +22,7 @@ import com.example.movieapp.ui.adapter.MoviesLoadStateAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class MoviesFragment : Fragment() {
@@ -66,33 +68,64 @@ class MoviesFragment : Fragment() {
             }
         }
 
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            pagingAdapter.refresh()
+        }
+
+        pagingAdapter.addLoadStateListener {
+            when (it.refresh) {
+                is LoadState.Error -> {
+                    val refreshError = (it.refresh as LoadState.Error)
+                    when (refreshError.error) {
+                        is HttpException -> when ((refreshError.error as HttpException).code()) {
+                            429 -> showSnackbar(
+                                getString(R.string.frequent_updates_msg),
+                                Snackbar.LENGTH_INDEFINITE,
+                                getString(R.string.retry)
+                            ) { pagingAdapter.retry() }
+                        }
+                    }
+                }
+                else -> {}
+            }
+        }
+
+        pagingAdapter.addOnPagesUpdatedListener {
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
+
         viewModel.networkState.observe(viewLifecycleOwner) {
             it?.let {
                 when (it) {
                     NetworkState.Restored -> {
-                        Snackbar.make(
-                            binding.root,
-                            getString(R.string.connection_restored_msg),
-                            Snackbar.LENGTH_SHORT
-                        )
-                            .show()
+                        showSnackbar(getString(R.string.connection_restored_msg))
                         pagingAdapter.retry()
                     }
                     NetworkState.NotAvailable -> {
-                        errorSnackbar = Snackbar.make(
-                            binding.root,
+                        showSnackbar(
                             getString(R.string.check_connection_msg),
-                            Snackbar.LENGTH_INDEFINITE
-                        )
-                            .setAction(getString(R.string.dismiss_msg)) {
-                                errorSnackbar?.dismiss()
-                            }
-                        errorSnackbar?.show()
+                            Snackbar.LENGTH_INDEFINITE,
+                            getString(R.string.dismiss_msg)
+                        ) { errorSnackbar?.dismiss() }
                     }
                 }
             }
         }
 
+    }
+
+    private fun showSnackbar(
+        msg: String,
+        length: Int = Snackbar.LENGTH_SHORT,
+        actionName: String = "",
+        action: (View) -> Unit = {}
+    ) {
+        errorSnackbar = Snackbar.make(
+            binding.rv,
+            msg,
+            length
+        ).setAction(actionName, action)
+        errorSnackbar?.show()
     }
 
     override fun onDestroyView() {

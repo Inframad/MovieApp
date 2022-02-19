@@ -47,12 +47,10 @@ dependencies {
     def glide_version = "4.13.0"
 
     implementation "androidx.fragment:fragment-ktx:1.4.1"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
-
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-
-    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
